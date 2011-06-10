@@ -1,4 +1,5 @@
 require 'coderay'
+require 'launchy'
 
 module Water
   DIFF_FILE_NAME = 'diff.html'
@@ -9,7 +10,7 @@ module Water
       file.write CodeRay.scan(ARGF.read, :diff).page
     end
     
-    # FIXME: Only works on Mac.
-    %x{open #{DIFF_FILE_NAME}}
+    url = "file://#{File.join Dir.pwd, DIFF_FILE_NAME}"
+    Launchy.open url
   end
 end
