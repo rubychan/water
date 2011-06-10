@@ -1,0 +1,9 @@
+h1. Water
+
+Water takes a unified diff as its input and opens a browser window
+with a nicely formatted display of it. It uses CodeRay to highlight the code
+inside of the diff.
+
+h2. Usage
+ 
+bc. [git|svn|...] diff | water
