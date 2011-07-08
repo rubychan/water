@@ -22,7 +22,7 @@ class Water
   def write_diff_file
     # FIXME: Don't just write into the current folder.
     File.open DIFF_FILE_NAME, 'w' do |file|
-      file.write CodeRay.scan(@diff, :diff).page
+      file.write CodeRay.scan(@diff, :diff).page(:title => 'diff | water')
     end
   end
   
