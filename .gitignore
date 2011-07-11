@@ -48,3 +48,4 @@ pkg
 #*.rbc
 
 diff.html
+Gemfile.lock

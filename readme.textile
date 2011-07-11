@@ -5,3 +5,10 @@ Water takes a unified diff as its input and opens a browser window with a nicely
 h2. Usage
  
 bc. [git|svn|...] diff | water
+
+h2. Installation
+
+bc. gem install water
+
+This will install a pre-release version of CodeRay (for syntax highlighting),
+and launchy (along with its dependencies) to cross-platform browser opening.
