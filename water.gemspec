@@ -3,7 +3,7 @@ $:.push File.expand_path("../lib", __FILE__)
 
 Gem::Specification.new do |s|
   s.name        = "water"
-  s.version     = '0.3.0'
+  s.version     = '0.4.0'
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Kornelius Kalnbach"]
   s.email       = ["murphy@rubychan.de"]
@@ -12,7 +12,7 @@ Gem::Specification.new do |s|
   s.description = "The diff washing machine. See your code changes clearly."
   
   s.add_dependency "coderay", '~> 1.0.0.846rc2'
-  s.add_dependency "launchy", '~> 0.4.0'
+  s.add_dependency "launchy", '~> 2.0.0'
   
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
