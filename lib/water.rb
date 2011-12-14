@@ -1,8 +1,11 @@
+require 'fileutils'
+require 'pathname'
+
 require 'coderay'
 require 'launchy'
 
 class Water
-  DIFF_FILE_NAME = 'diff.html'
+  DIFF_DIR_NAME  = Pathname.new('~/.water').expand_path
   
   def self.run
     new.run
@@ -14,16 +17,30 @@ class Water
     if diff.chomp.empty?
       puts 'Your diff is empty.'
     else
-      write_diff_file diff
-      open_diff_file
+      DIFF_DIR_NAME.mkpath
+      open_diff_file write_diff_file(diff)
     end
   end
   
+  def get_file_path
+    home = Pathname.new('~').expand_path
+    pwd  = Pathname.pwd
+    relative_path = pwd.relative_path_from(home)
+    
+    name = relative_path.to_s.gsub('../', '').gsub('/', '-')
+    name << '.diff.html'
+    
+    DIFF_DIR_NAME + name
+  end
+  
   def write_diff_file diff
-    # FIXME: Don't just write into the current folder.
-    File.open DIFF_FILE_NAME, 'w' do |file|
+    file_path = get_file_path
+    
+    File.open file_path, 'w' do |file|
       file.write water(diff)
     end
+    
+    file_path
   end
   
   def water diff
@@ -43,67 +60,73 @@ class Water
     output.css = CodeRay::Encoders::HTML::CSS.new(:alpha)
     
     output.css.stylesheet << <<-CSS
-    body {
-      background: gray;
-    }
     
-    .diff-block {
-      background: hsl(0,0%,95%);
-      margin: 5px;
-      margin-bottom: 0;
-      padding: 3px 6px;
-      overflow-y: visible;
-      overflow-x: auto;
-      -webkit-transition: 0.3s;
-         -moz-transition: 0.3s;
-              transition: 0.3s;
-    }
-    .diff-block.closed {
-      margin-top: -5px;
-      overflow: hidden;
-    }
-    .diff-block:first-of-type.closed {
-      margin-top: 0;
-    }
-    
-    .CodeRay pre {
-      width: -moz-fit-content;
-      line-height: 15px;
-    }
-    .CodeRay .line {
-      float: none;
-      height: 15px;
-    }
-    .diff-block-content .CodeRay .line {
-      margin-bottom: -15px;
-    }
-    
-    body > a {
-      display: block;
-      position: fixed;
-      top: 0;
-      right: 0;
-      background: gray;
-      color: white;
-      padding: 5px 10px;
-      font-family: monospace;
-      font-weight: bold;
-      text-decoration: none;
-    }
-    body > a:hover {
-      text-decoration: underline;
-    }
+body {
+  background: gray;
+  padding-bottom: 1000px;
+}
+body > a {
+  display: block;
+  position: fixed;
+  top: 0;
+  right: 0;
+  background: gray;
+  color: white;
+  padding: 5px 10px;
+  font-family: monospace;
+  font-weight: bold;
+  text-decoration: none;
+}
+body > a:hover {
+  text-decoration: underline;
+}
+
+.diff-block {
+  background: hsl(0,0%,95%);
+  margin: 5px;
+  margin-bottom: 0;
+  padding: 3px 6px;
+  overflow-y: visible;
+  overflow-x: auto;
+  -webkit-transition: 0.3s;
+     -moz-transition: 0.3s;
+          transition: 0.3s;
+}
+.diff-block.closed {
+  margin-top: -5px;
+  overflow: hidden;
+}
+.diff-block:first-of-type.closed {
+  margin-top: 0;
+}
+
+.CodeRay pre {
+  width: -moz-fit-content;
+  line-height: 15px;
+}
+.CodeRay .line {
+  float: none;
+  height: 15px;
+}
+.diff-block-content .CodeRay .line {
+  margin-bottom: -15px;
+}
     CSS
     
     output.wrap_in! CodeRay::Encoders::HTML::Output.page_template_for_css(output.css)
-    output.apply_title! 'diff | water'
+    output.apply_title! "diff #{Dir.pwd} | water"
     
-    output[/<\/head>\s*<body>/] = <<-JS
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+    output[/<\/head>\s*<body[^>]*>?/] = <<-JS
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
     <script>
       $(function () {
         $('.diff-block').live('click', function () {
           $(this).toggleClass('closed').find('.diff-block-content').slideToggle('fast');
+          $('html, body').animate({ scrollTop: $(this).offset().top }, 'fast');
+        });
+        $('.diff-block').live('touchend', function () {
+          $(this).toggleClass('closed').find('.diff-block-content').slideToggle('fast');
+          $('html, body').animate({ scrollTop: $(this).offset().top }, 'fast');
         });
         $('a.toggle-all').click(function () {
           $('.diff-block').toggleClass('closed').find('.diff-block-content').toggle();
@@ -119,7 +142,7 @@ class Water
     output
   end
   
-  def open_diff_file
-    Launchy.open "file://#{File.join Dir.pwd, DIFF_FILE_NAME}"
+  def open_diff_file file_path
+    Launchy.open "file://#{file_path.expand_path}"
   end
 end
