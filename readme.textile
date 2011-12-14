@@ -1,6 +1,12 @@
 h1. Water
 
-Water takes a unified diff as its input and opens a browser window with a nicely formatted display of it. It uses CodeRay to highlight the code inside of the diff.
+Water takes a unified diff and opens it in your browser – nicely formatted.
+
+h2. Features
+
+* syntax colors (CodeRay)
+* highlighting of in-line changes ("eye-catchers")
+* toggle files with a click
 
 h2. Usage
  
@@ -8,11 +14,11 @@ bc.. git diff | water
 svn diff -rPREV:HEAD | water
 diff -wu | water
 
-etc.
+p. …et cetera.
 
 h2. Installation
 
 bc. gem install water
 
-This will install a pre-release version of CodeRay (for syntax highlighting),
-and launchy (along with its dependencies) to cross-platform browser opening.
+This will install a latest version of CodeRay,
+and launchy (along with its dependencies) for cross-platform browser opening.
