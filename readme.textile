@@ -9,10 +9,12 @@ h2. Features
 * toggle files with a click
 
 h2. Usage
- 
-bc.. git diff | water
-svn diff -rPREV:HEAD | water
-diff -wu | water
+
+bc.             git diff | water
+
+bc. svn diff -rPREV:HEAD | water
+
+bc.             diff -wu | water
 
 p. …et cetera.
 
