@@ -2,6 +2,8 @@ h1. Water
 
 Water takes a unified diff and opens it in your browser – nicely formatted.
 
+p=. !http://cl.ly/Cdh8!
+
 h2. Features
 
 * syntax colors (CodeRay)
