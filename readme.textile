@@ -4,7 +4,11 @@ Water takes a unified diff as its input and opens a browser window with a nicely
 
 h2. Usage
  
-bc. [git|svn|...] diff | water
+bc.. git diff | water
+svn diff -rPREV:HEAD | water
+diff -wu | water
+
+etc.
 
 h2. Installation
 
