@@ -44,7 +44,7 @@ class Water
   end
   
   def water diff
-    output = diff.gsub(/\r\n?/, "\n").scan(/ (?> ^(?!-(?!--)|\+(?!\+\+)|[\\ ]|$|@@) .*\n)* (?> ^(?=-(?!--)|\+(?!\+\+)|[\\ ]|$|@@) .*(?:\n|\z))+ /x).map do |block|
+    output = diff.gsub(/\r\n?/, "\n").scan(/ (?> ^(?!-(?!--\ )|\+(?!\+\+)|[\\ ]|$|@@) .*\n)* (?> ^(?=-(?!--\ )|\+(?!\+\+)|[\\ ]|$|@@) .*(?:\n|\z))+ /x).map do |block|
       head_ray, content_ray = CodeRay.scanner(:diff).tokenize(block.split("\n", 2))
       content_ray ||= ''
       
