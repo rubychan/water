@@ -5,5 +5,5 @@ task :default => :test
 
 desc 'Run a quick test'
 task :test do
-  puts `git diff | ruby -rubygems -w -Ilib bin/water`
+  puts %x(git diff `git rev-list HEAD | tail -n 1` | ruby -rubygems -w -Ilib bin/water)
 end
