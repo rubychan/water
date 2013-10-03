@@ -66,21 +66,21 @@ class Water
     output.apply_title! "diff #{Dir.pwd} | water"
     
     output[/<\/head>\s*<body[^>]*>?/] = <<-JS
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
     <script>
       $(function () {
-        $('.diff-block').live('click', function () {
+        $(document).on('click', '.diff-block', function () {
           $(this).toggleClass('closed').find('.diff-block-content').slideToggle('fast');
           $('html, body').animate({ scrollTop: $(this).offset().top }, 'fast');
         });
-        $('.diff-block').live('touchend', function () {
+        $(document).on('touchend', '.diff-block', function () {
           $(this).toggleClass('closed').find('.diff-block-content').slideToggle('fast');
           $('html, body').animate({ scrollTop: $(this).offset().top }, 'fast');
         });
-        $('a.toggle-all').click(function () {
+        $(document).on('click', 'a.toggle-all', function () {
           $('.diff-block').toggleClass('closed').find('.diff-block-content').toggle();
         });
-      })
+      });
     </script>
     </head>
     
