@@ -5,60 +5,9 @@ require 'coderay'
 require 'launchy'
 
 class Water
-  DIFF_DIR_NAME  = Pathname.new('~/.water').expand_path
+  DIFF_DIR_NAME = Pathname.new('~/.water').expand_path
   
-  CSS = <<-CSS
-body {
-  background: gray;
-  padding-bottom: 1000px;
-}
-body > a {
-  display: block;
-  position: fixed;
-  top: 0;
-  right: 0;
-  background: gray;
-  color: white;
-  padding: 5px 10px;
-  font-family: monospace;
-  font-weight: bold;
-  text-decoration: none;
-}
-body > a:hover {
-  text-decoration: underline;
-}
-
-.diff-block {
-  background: hsl(0,0%,95%);
-  margin: 5px;
-  margin-bottom: 0;
-  padding: 3px 6px;
-  overflow-y: visible;
-  overflow-x: auto;
-  -webkit-transition: 0.3s;
-     -moz-transition: 0.3s;
-          transition: 0.3s;
-}
-.diff-block.closed {
-  margin-top: -5px;
-  overflow: hidden;
-}
-.diff-block:first-of-type.closed {
-  margin-top: 0;
-}
-
-.CodeRay pre {
-  width: -moz-fit-content;
-  line-height: 15px;
-}
-.CodeRay .line {
-  float: none;
-  height: 15px;
-}
-.diff-block-content .CodeRay .line {
-  margin-bottom: -15px;
-}
-  CSS
+  CSS = File.read(File.expand_path('../../assets/water.css', __FILE__))
   
   def self.run
     new.run
