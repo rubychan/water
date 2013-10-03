@@ -111,14 +111,7 @@ body > a:hover {
     
     output.extend(CodeRay::Encoders::HTML::Output)
     output.css = CodeRay::Encoders::HTML::CSS.new(:alpha)
-    
-    if output.css.respond_to? :css
-      def (output.css).css
-        super + Water::CSS
-      end
-    else
-      output.css.stylesheet << Water::CSS
-    end
+    output.css.stylesheet << Water::CSS
     
     output.wrap_in! CodeRay::Encoders::HTML::Output.page_template_for_css(output.css)
     output.apply_title! "diff #{Dir.pwd} | water"
