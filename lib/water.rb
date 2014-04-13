@@ -8,7 +8,9 @@ class Water
   DIFF_DIR_NAME = Pathname.new('~/.water').expand_path
   
   CSS = File.read(File.expand_path('../../assets/water.css', __FILE__))
-  
+  JS  = File.read(File.expand_path('../../assets/zepto.min.js', __FILE__)) +
+    File.read(File.expand_path('../../assets/zepto-slide-transition.min.js', __FILE__))
+
   def self.run
     new.run
   end
@@ -57,16 +59,16 @@ class Water
 </div>
       HTML
     end.join("\n")
-    
+
     output.extend(CodeRay::Encoders::HTML::Output)
     output.css = CodeRay::Encoders::HTML::CSS.new(:alpha)
     output.css.stylesheet << Water::CSS
-    
+
     output.wrap_in! CodeRay::Encoders::HTML::Output.page_template_for_css(output.css)
     output.apply_title! "diff #{Dir.pwd} | water"
-    
+
     output[/<\/head>\s*<body[^>]*>?/] = <<-JS
-    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+    <script>#{Water::JS}</script>
     <script>
       $(function () {
         $(document).on('click', '.diff-block', function () {
