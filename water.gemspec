@@ -11,8 +11,8 @@ Gem::Specification.new do |s|
   s.summary     = "diff viewer with code highlighting"
   s.description = "The diff washing machine. See your code changes clearly."
   
-  s.add_dependency "coderay", '~> 1.0.7'
-  s.add_dependency "launchy", '~> 2.0.0'
+  s.add_dependency "coderay", '~> 1.1.0'
+  s.add_dependency "launchy"
   
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")

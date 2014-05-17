@@ -49,4 +49,4 @@ pkg
 
 diff.html
 Gemfile.lock
-.rvmrc
+.ruby-version
