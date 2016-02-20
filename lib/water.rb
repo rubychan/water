@@ -92,6 +92,6 @@ class Water
   end
   
   def open_diff_file file_path
-    Launchy.open "file://#{file_path.expand_path}"
+    Launchy.open "file://#{file_path.expand_path}" if ARGV.include? '-b'
   end
 end
